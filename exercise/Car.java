@@ -1,6 +1,6 @@
 package exercise;
 
-public class Car {
+public class Car implements vehicle{
     String brand;
     String color;
     int speed;
@@ -15,10 +15,18 @@ public class Car {
     Car(String brand){
         this(brand, "검정", 250);
     }
-
+  
     public void Drive() {
         System.out.println(color+"색 "+brand+"차가 "+speed+"KM/h로 달립니다.");
     } 
+
+    public void Stop() {
+        System.out.println("차가 멈춥니다.");
+    }
+    public void Speedup() {
+        this.speed += 10;
+        System.out.println("차가 속도를 올립니다. 현재 속도는 "+speed+"KM/h 입니다.");
+    }
 
     
 }
