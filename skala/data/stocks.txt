@@ -1,0 +1,3 @@
+TechCorp,101
+GreenEnergy,79
+HealthPlus,126

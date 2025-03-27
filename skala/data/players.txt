@@ -1,0 +1,5 @@
+skala5,1522
+skala1,9200,GreenEnergy:80:10
+skala2,9000,TechCorp:100:10
+skala3,9400,HealthPlus:120:5
+skala4,9600,GreenEnergy:80:5
