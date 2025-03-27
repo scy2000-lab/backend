@@ -8,7 +8,7 @@ import java.util.ArrayList;
 class StockRepository {
 
     // 주식 정보를 저장할 파일 (형식 - "주식명,주가")
-    private final String STOCK_FILE = "data/stocks.txt";
+    private final String STOCK_FILE = "./skala-stock-console/data/stocks.txt";
 
     // 주식 정보 목록 (메모리)
     private ArrayList<Stock> stockList = new ArrayList<>();

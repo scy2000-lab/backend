@@ -1,7 +1,8 @@
 // 클래스 상속
 class PlayerStock extends Stock {
     private int stockQuantity;
-
+    private int quantity;
+    private int purchasePrice;
     // 상속을 고려한 constructor
     public PlayerStock(Stock stock, int quantity) {
         this.stockName = stock.getStockName();
@@ -19,7 +20,13 @@ class PlayerStock extends Stock {
     public int getStockQuantity() {
         return this.stockQuantity;
     }
+    public int getQuantity() {
+        return quantity;
+    }
 
+    public int getPurchasePrice() {
+        return purchasePrice;
+    }
     public void setStockQuantity(int count) {
         this.stockQuantity = count;
     }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 class PlayerRepository {
 
     // 플레이어 정보를 저장할 파일
-    private final String PLAYER_FILE = "data/players.txt";
+    private final String PLAYER_FILE = "./skala-stock-console/data/players.txt";
 
     // 플레이어 정보 목록 (메모리)
     private ArrayList<Player> playerList = new ArrayList<>();

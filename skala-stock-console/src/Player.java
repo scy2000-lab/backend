@@ -66,7 +66,13 @@ class Player {
             }
         }
     }
-
+    public int calculateTotalInvestment() {
+        int totalInvestment = 0;
+        for (PlayerStock stock : playerStocks) {
+            totalInvestment += stock.getPurchasePrice() * stock.getQuantity();
+        }
+        return totalInvestment;
+    }    
     public PlayerStock findStock(int index) {
         if (index >= 0 && index < playerStocks.size()) {
             return playerStocks.get(index);

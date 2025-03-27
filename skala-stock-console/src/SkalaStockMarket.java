@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class SkalaStockMarket {
@@ -36,6 +37,8 @@ public class SkalaStockMarket {
             System.out.println("1. 보유 주식 목록");
             System.out.println("2. 주식 구매");
             System.out.println("3. 주식 판매");
+            System.out.println("4. 주식 정보 업데이트");
+            System.out.println("5. 전체 주식 판매");
             System.out.println("0. 프로그램 종료");
 
             System.out.print("선택: ");
@@ -50,6 +53,12 @@ public class SkalaStockMarket {
                     break;
                 case 3:
                     sellStock(scanner);
+                    break;
+                case 4:
+                    changeValue();
+                    break;
+                case 5:
+                    allSell();
                     break;
                 case 0:
                     System.out.println("프로그램을 종료합니다...Bye");
@@ -112,7 +121,8 @@ public class SkalaStockMarket {
     private void sellStock(Scanner scanner) {
         System.out.println("\n판매할 주식 번호를 선택하세요:");
         displayPlayerStocks();
-
+        int realizedprofit = 0;
+    
         System.out.print("선택: ");
         int index = scanner.nextInt() - 1;
 
@@ -130,10 +140,11 @@ public class SkalaStockMarket {
             Stock baseStock = stockRepository.findStock(playerStock.getStockName());
             int playerMoney = player.getPlayerMoney() + baseStock.getStockPrice() * quantity;
             player.setPlayerMoney(playerMoney);
-
+            realizedprofit = baseStock.getStockPrice()*quantity-playerStock.stockPrice*quantity;
             playerStock.setStockQuantity(playerStock.getStockQuantity() - quantity);
             player.updatePlayerStock(playerStock);
-
+            System.out.println("구입금 "+playerStock.stockPrice+"판매금"+baseStock.getStockPrice());
+            System.out.println("판매 완료!: 실현 이익은"+realizedprofit+"원 입니다. 남은 금액: " + player.getPlayerMoney());
             // 변경된 내용을 파일로 저장
             playerRepository.savePlayerList();
 
@@ -141,4 +152,47 @@ public class SkalaStockMarket {
             System.out.println("ERROR: 잘못된 선택입니다.");
         }
     }
+    private void allSell() {
+        System.out.println("\n일괄 판매..");
+        displayPlayerStocks();
+        int realizedprofit = 0;
+        int cnt = player.getPlayerStocks().size();
+        for (int i =0 ; i < cnt;  i++) {
+            PlayerStock playerStock = player.findStock(0);
+             if(playerStock != null){
+                Stock baseStock = stockRepository.findStock(playerStock.getStockName());
+                realizedprofit = baseStock.getStockPrice()*playerStock.getStockQuantity()-playerStock.stockPrice*playerStock.getStockQuantity();
+                player.setPlayerMoney(player.getPlayerMoney() + baseStock.getStockPrice() * playerStock.getStockQuantity());
+                playerStock.setStockQuantity(0);
+                player.updatePlayerStock(playerStock);
+                System.out.println("구입금 "+playerStock.stockPrice+"판매금"+baseStock.getStockPrice());
+                System.out.println("판매 완료!: 실현 이익은"+realizedprofit+"원 입니다. 남은 금액: " + player.getPlayerMoney());
+                // 변경된 내용을 파일로 저장
+                playerRepository.savePlayerList();
+             }
+        
+        }
+           
+    }   
+       
+    private void changeValue() {
+    System.out.println("\n----- 하루 진행 중: 시장 상황 업데이트 -----");
+    Random random = new Random(); // Random 객체 생성
+
+    String[] stocks = stockRepository.getStockListForMenu().split(System.lineSeparator());
+    for (int i = 0; i < stocks.length; i++) {
+        Stock stock = stockRepository.findStock(i);
+        if (stock != null) {
+            // 수정: -5% ~ +5% 사이의 변동률
+            double changePercent = (random.nextDouble() * 10) - 5;
+            int oldPrice = stock.getStockPrice();
+            int newPrice = (int) Math.max(1, oldPrice + oldPrice * changePercent / 100);
+            stock.setStockPrice(newPrice);
+            System.out.println(stock.getStockName() + " 가격이 " + oldPrice + "에서 " + newPrice +
+                " (변동률: " + String.format("%.2f", changePercent) + "%)로 변경되었습니다.");
+        }
+    }
+
+    stockRepository.saveStockList(); // 수정된 가격 저장
+}
 }

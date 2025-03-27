@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "skala-stock-console/src",
+        "demo/src/main/java/com/example/demo"
+    ]
+}
